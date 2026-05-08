@@ -68,3 +68,70 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Setup
+
+Follow these steps to set up the project locally. This assumes you have Node.js and npm installed. For containerized runs, Docker is optional but recommended.
+
+1. Install project dependencies:
+
+```bash
+npm install
+```
+
+2. (Optional) If you plan to run the app with Docker, ensure Docker Desktop (Windows/macOS) or Docker Engine (Linux) is installed and running.
+
+## Run locally
+
+Start the development server:
+
+```bash
+npm start
+# Then open http://localhost:3000 in your browser
+```
+
+Build the app for production:
+
+```bash
+npm run build
+```
+
+## Docker (example)
+
+This project includes a development Dockerfile (`Dockerfile.dev`). Below are example commands to build and run the app in Docker. Adapt paths and options to your environment.
+
+Build a development image using `Dockerfile.dev`:
+
+```bash
+docker build -t reactapp:dev -f Dockerfile.dev .
+```
+
+Run the development container and map port 3000:
+
+On Windows (PowerShell/CMD):
+```powershell
+docker run --rm -it -p 3000:3000 -v %cd%:/app -w /app reactapp:dev
+```
+
+On Linux/macOS:
+```bash
+docker run --rm -it -p 3000:3000 -v $(pwd):/app -w /app reactapp:dev
+```
+
+Notes:
+- Volume mounts (`-v`) let the container reflect local code changes. Remove the `-v` option for a static image run.
+- Replace `%cd%` with `$(pwd)` on non-Windows systems.
+
+Example: build and run a production image (serve `build/` with a static server):
+
+```bash
+npm run build
+docker build -t reactapp:latest .
+docker run --rm -p 80:80 reactapp:latest
+```
+
+Troubleshooting:
+- If port 3000 is already in use, change the host port mapping (for example `-p 3001:3000`).
+- On Windows, allow Docker Desktop access to drive mounts if using volume mounts.
+- For permission errors when building or mounting volumes, try running commands with appropriate privileges.
+
