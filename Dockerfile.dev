@@ -12,4 +12,4 @@ RUN npm install
 COPY . .
 
 # Expose the port the app runs on
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "dev"]
