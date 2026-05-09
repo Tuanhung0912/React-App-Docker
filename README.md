@@ -1,73 +1,36 @@
-# Getting Started with Create React App
+# React + Vite Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a React frontend application built with [Vite](https://vite.dev/) — a fast, modern build tool for web development.
 
-## Available Scripts
+## Tech Stack
 
-In the project directory, you can run:
+- **React** 18
+- **Vite** 6
+- **Docker** with multi-stage build (Nginx for production)
 
-### `npm start`
+## Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+frontend/
+├── index.html            # Entry HTML (Vite serves from root)
+├── vite.config.js        # Vite configuration
+├── package.json
+├── Dockerfile            # Production build (multi-stage → Nginx)
+├── Dockerfile.dev        # Development container
+├── docker-compose.yml    # Dev + Test services
+├── public/               # Static assets (favicon, manifest, etc.)
+│   ├── favicon.ico
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+└── src/
+    ├── main.jsx          # Application entry point
+    ├── App.jsx           # Root component
+    ├── App.css
+    ├── index.css
+    └── logo.svg
+```
 
 ## Setup
 
@@ -81,13 +44,37 @@ npm install
 
 2. (Optional) If you plan to run the app with Docker, ensure Docker Desktop (Windows/macOS) or Docker Engine (Linux) is installed and running.
 
-## Run locally
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm run dev`
+
+Runs the app in development mode.\
+Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
+
+The page will hot-reload instantly when you make changes thanks to Vite's HMR (Hot Module Replacement).
+
+### `npm run build`
+
+Builds the app for production to the `dist` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
+
+### `npm run preview`
+
+Locally preview the production build. This serves the `dist` folder on a local static server.\
+Useful to verify the production build before deploying.
+
+## Run Locally
 
 Start the development server:
 
 ```bash
-npm start
-# Then open http://localhost:3000 in your browser
+npm run dev
+# Then open http://localhost:5173 in your browser
 ```
 
 Build the app for production:
@@ -96,9 +83,29 @@ Build the app for production:
 npm run build
 ```
 
-## Docker (example)
+Preview the production build:
 
-This project includes a development Dockerfile (`Dockerfile.dev`). Below are example commands to build and run the app in Docker. Adapt paths and options to your environment.
+```bash
+npm run preview
+```
+
+## Docker
+
+This project includes Docker support for both development and production environments.
+
+### Development with Docker Compose
+
+The easiest way to run the development environment is with Docker Compose:
+
+```bash
+docker-compose up
+```
+
+This starts two services:
+- **web** — Development server with hot-reload on [http://localhost:5173](http://localhost:5173)
+- **test** — Runs the test suite
+
+### Development Container (Manual)
 
 Build a development image using `Dockerfile.dev`:
 
@@ -106,32 +113,56 @@ Build a development image using `Dockerfile.dev`:
 docker build -t reactapp:dev -f Dockerfile.dev .
 ```
 
-Run the development container and map port 3000:
+Run the development container and map port 5173:
 
-On Windows (PowerShell/CMD):
+On Windows (PowerShell):
 ```powershell
-docker run --rm -it -p 3000:3000 -v %cd%:/app -w /app reactapp:dev
+docker run --rm -it -p 5173:5173 -v ${PWD}:/app -w /app reactapp:dev
 ```
 
 On Linux/macOS:
 ```bash
-docker run --rm -it -p 3000:3000 -v $(pwd):/app -w /app reactapp:dev
+docker run --rm -it -p 5173:5173 -v $(pwd):/app -w /app reactapp:dev
 ```
 
-Notes:
-- Volume mounts (`-v`) let the container reflect local code changes. Remove the `-v` option for a static image run.
-- Replace `%cd%` with `$(pwd)` on non-Windows systems.
+### Production Build
 
-Example: build and run a production image (serve `build/` with a static server):
+Build and run a production image (serves `dist/` with Nginx):
 
 ```bash
-npm run build
 docker build -t reactapp:latest .
 docker run --rm -p 80:80 reactapp:latest
 ```
 
-Troubleshooting:
-- If port 3000 is already in use, change the host port mapping (for example `-p 3001:3000`).
+Then open [http://localhost](http://localhost) in your browser.
+
+### Docker Notes
+
+- Volume mounts (`-v`) let the container reflect local code changes. Remove the `-v` option for a static image run.
+- Vite's dev server is configured with `host: true` and `usePolling: true` in `vite.config.js` to work correctly inside Docker containers.
+- If port 5173 is already in use, change the host port mapping (for example `-p 5174:5173`).
 - On Windows, allow Docker Desktop access to drive mounts if using volume mounts.
 - For permission errors when building or mounting volumes, try running commands with appropriate privileges.
 
+## Environment Variables
+
+Vite uses the `VITE_` prefix for environment variables that are exposed to the client-side code.
+
+```bash
+# .env
+VITE_API_URL=http://localhost:8080/api
+```
+
+Access in code:
+
+```js
+const apiUrl = import.meta.env.VITE_API_URL;
+```
+
+> **Note:** Only variables prefixed with `VITE_` are exposed to your app. See the [Vite Env Variables docs](https://vite.dev/guide/env-and-mode) for more details.
+
+## Learn More
+
+- [Vite Documentation](https://vite.dev/guide/)
+- [React Documentation](https://react.dev/)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md)
