@@ -70,7 +70,8 @@ jobs:
       # Step 3: Verify the production image actually works
       #   -d               → run container in background (detached mode)
       #   --name prod-test → name the container for easy reference
-      #   -p 8080:80       → map host port 8080 to Nginx container port 80
+      #   -p 8080:8080     → map host port 8080 to Nginx container port 8080
+      #                      (Nginx listens on 8080 for non-root compatibility)
       #   sleep 3          → wait 3 seconds for Nginx to fully start
       #   curl -f          → make an HTTP GET to localhost:8080
       #                      -f flag: fail silently with exit code != 0 on error
@@ -78,7 +79,7 @@ jobs:
       #   docker stop      → clean up the test container after verification
       - name: Verify production image runs
         run: |
-          docker run -d --name prod-test -p 8080:80 frontend-prod
+          docker run -d --name prod-test -p 8080:8080 frontend-prod
           sleep 3
           curl -f http://localhost:8080 || exit 1
           docker stop prod-test

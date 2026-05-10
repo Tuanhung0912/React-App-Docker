@@ -1,15 +1,19 @@
-# Use an official Node.js runtime as a parent image
-FROM node:lts-alpine
+# Use an official Node.js runtime as a parent image (pinned version)
+FROM node:20-alpine
 
 # Set the working directory in the container
-WORKDIR '/app'
+WORKDIR /app
 
-# Install dependencies
+# Install dependencies (cached layer)
 COPY package.json .
 RUN npm install
 
 # Copy the rest of the application code to the container
 COPY . .
 
-# Expose the port the app runs on
+# Run as non-root user for security
+# Note: 'node' user is built into the official Node.js Alpine image
+USER node
+
+# Start the Vite dev server
 CMD ["npm", "run", "dev"]
