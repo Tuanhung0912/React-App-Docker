@@ -8,30 +8,6 @@ This project is a React frontend application built with [Vite](https://vite.dev/
 - **Vite** 6
 - **Docker** with multi-stage build (Nginx for production)
 
-## Project Structure
-
-```
-frontend/
-├── index.html            # Entry HTML (Vite serves from root)
-├── vite.config.js        # Vite configuration
-├── package.json
-├── Dockerfile            # Production build (multi-stage → Nginx)
-├── Dockerfile.dev        # Development container
-├── docker-compose.yml    # Dev + Test services
-├── public/               # Static assets (favicon, manifest, etc.)
-│   ├── favicon.ico
-│   ├── logo192.png
-│   ├── logo512.png
-│   ├── manifest.json
-│   └── robots.txt
-└── src/
-    ├── main.jsx          # Application entry point
-    ├── App.jsx           # Root component
-    ├── App.css
-    ├── index.css
-    └── logo.svg
-```
-
 ## Setup
 
 Follow these steps to set up the project locally. This assumes you have Node.js and npm installed. For containerized runs, Docker is optional but recommended.
