@@ -244,11 +244,3 @@ This project is deployed to **[Render.com](https://render.com)** as a free alter
 - No credit card required if registered with GitHub
 
 ---
-
-## Learn More
-
-- [Vite Documentation](https://vite.dev/guide/)
-- [React Documentation](https://react.dev/)
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md)
-- [GitHub Actions Documentation](https://docs.github.com/en/actions)
-- [Render.com Documentation](https://docs.render.com/)
