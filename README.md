@@ -1,7 +1,5 @@
 # React + Vite Frontend
 
-This project is a React frontend application built with [Vite](https://vite.dev/) — a fast, modern build tool for web development.
-
 ## Tech Stack
 
 - **React** 18
